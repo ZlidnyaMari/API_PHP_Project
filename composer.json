@@ -1,0 +1,17 @@
+{
+    "name": "gb/php2",
+    "autoload": {
+        "psr-4": {
+            "Gb\\Php2\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ZlidnyaMari",
+            "email": "78682991+ZlidnyaMari@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "fakerphp/faker": "^1.20"
+    }
+}
