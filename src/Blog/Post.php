@@ -1,17 +1,18 @@
 <?php
-namespace Gb\Php2\Articles;
-use Gb\Php2\Users\User;
+namespace Gb\Php2\Blog;
+use Gb\Php2\Blog\User;
 
-class Article 
+class Post 
 {
-    public ?int $id;
-    public User $idAutor;
+    public UUID $uuid;
+    public string $uuidAutor;
     public ?string $title;
     public ?string $text;
 
-    public function __construct(int $id = null, string $title = null, string $text = null)
+    public function __construct(UUID $uuid, User $user, string $title = null, string $text = null)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
+        $this->uuidAutor = $user->getUuid();
         $this->title = $title;
         $this->text = $text;
     }
@@ -21,26 +22,26 @@ class Article
         return $this->getTitle(). ' ' .$this->getText();
     }
 
-    public function getId(): int
+    public function getUuid(): UUID
     {
-        return $this->id;
+        return $this->uuid;
     }
 
-    public function setId($id)
+    public function setUuid($uuid)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
 
         return $this;
     }
 
-    public function getIdAutor(): User
+    public function getUuidAutor()
     {
-        return $this->idAutor;
+        return $this->uuidAutor;
     }
 
-    public function setIdAutor($idAutor)
+    public function setUuidAutor($uuidAutor)
     {
-        $this->idAutor = $idAutor;
+        $this->uuidAutor = $uuidAutor;
 
         return $this;
     }
