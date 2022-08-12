@@ -7,8 +7,8 @@ use Gb\Php2\Blog\Post;
 class Comment 
 {
     public UUID $uuid;
-    public string $uuidAutor;
-    public string $uuidPost;
+    public ?string $uuidAutor;
+    public ?string $uuidPost;
     public ?string $text;
 
     public function __construct(UUID $uuid, User $user, Post $post, string $text = null)
