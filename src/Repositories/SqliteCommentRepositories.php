@@ -8,7 +8,7 @@ use Gb\Php2\Blog\Comment;
 use Gb\Php2\Exeptions\CommentNotFoundException;
 use Gb\Php2\Interfaces\CommentsRepositoryInterface;
 
-class AddToSqliteCommentRepositories  implements CommentsRepositoryInterface
+class SqliteCommentRepositories  implements CommentsRepositoryInterface
 {
     private \PDO $connection;
 

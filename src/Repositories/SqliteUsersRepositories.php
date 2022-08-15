@@ -5,7 +5,7 @@ use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
 use Gb\Php2\Exeptions\UserNotFoundException;
 
-Class AddToSqliteUsersRepositories 
+Class SqliteUsersRepositories 
 {
     private \PDO $connection;
 

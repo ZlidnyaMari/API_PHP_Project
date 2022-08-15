@@ -7,7 +7,7 @@ use Gb\Php2\Blog\Post;
 use Gb\Php2\Exeptions\PostNotFoundException;
 use Gb\Php2\Interfaces\PostsRepositoryInterface;
 
-class AddToSqlitePostRepositories implements PostsRepositoryInterface
+class SqlitePostRepositories implements PostsRepositoryInterface
 {
     private \PDO $connection;
 

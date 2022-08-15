@@ -12,7 +12,14 @@
         }
     ],
     "require": {
-        "fakerphp/faker": "^1.20",
         "symfony/polyfill-uuid": "^1.26"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "fakerphp/faker": "^1.20"
+    },
+    "scripts": {
+        "test": "phpunit tests --testdox --colors"
     }
+        
 }
