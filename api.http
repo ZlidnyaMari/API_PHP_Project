@@ -1,0 +1,8 @@
+POST http://127.0.0.1/OpenServer/domains/Project_PHP_2/http.php/users/create
+Accept: application/json
+
+{
+    "username": "user2",
+    "first_name": "Иван",
+    "last_name": "Иванов"
+}
