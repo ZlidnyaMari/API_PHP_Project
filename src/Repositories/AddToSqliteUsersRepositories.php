@@ -42,6 +42,7 @@ Class AddToSqliteUsersRepositories implements UsersRepositoryInterface
 
         return $this->getUser($statement, $user_name);
     }
+    
 
     private function getUser(\PDOStatement $statement, string $user_name): User
     {
