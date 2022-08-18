@@ -62,7 +62,14 @@ class SqlitePostRepositories implements PostsRepositoryInterface
                 "No such header : $title"
             );
         }
-        $user = new User((UUID::random()), 'admin', 'Anna', 'German');
+        
+        $user = new User(
+            new UUID($result['uuid']),
+                $result['username'],
+                $result['first_name'], 
+                $result['last_name']
+        );
+
         return new Post(
             new UUID($result['uuid']),
                 $user,

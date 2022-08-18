@@ -54,8 +54,20 @@ class SqliteCommentRepositories  implements CommentsRepositoryInterface
                 "No such comment : $uuid"
             );
         }
-        $user = new User((UUID::random()), 'admin', 'Anna', 'German');
-        $post = new Post((UUID::random()), $user, 'Заголовок статьи', 'Текст статьи');
+        
+        $user = new User(
+            new UUID($result['uuid']),
+                $result['username'],
+                $result['first_name'], 
+                $result['last_name']
+        );
+
+        $post = new Post(
+            new UUID($result['uuid']),
+                $user,
+                $result['title'], 
+                $result['text']
+        );
 
         return new Comment(
             new UUID($result['uuid']),

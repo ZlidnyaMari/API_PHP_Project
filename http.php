@@ -46,19 +46,19 @@ try {
 
 $routes = [
     'GET' => [
-        '/OpenServer/domains/Project_PHP_2/http.php/users/show/' => new FindByUsername(
+        '/users/show/' => new FindByUsername(
             new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
     ],
     'POST' => [
-        '/OpenServer/domains/Project_PHP_2/http.php/users/create' => new CreateUser(
+        '/users/create' => new CreateUser(
             new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
-        '/OpenServer/domains/Project_PHP_2/http.php/posts/create' => new CreatePosts(
+        '/posts/create' => new CreatePosts(
             new SqlitePostRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             ),
@@ -66,7 +66,7 @@ $routes = [
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
-        '/OpenServer/domains/Project_PHP_2/http.php/comment/create' => new CreateComment(
+        '/comment/create' => new CreateComment(
             new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             ),
@@ -79,7 +79,7 @@ $routes = [
         )
     ],
     'DELETE' => [
-        '/OpenServer/domains/Project_PHP_2/http.php/posts' => new DeletePostByTitle(
+        '/posts/delete' => new DeletePostByTitle(
             new SqlitePostRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
