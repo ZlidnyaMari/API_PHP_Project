@@ -1,0 +1,9 @@
+DELETE  http://127.0.0.1/OpenServer/domains/Project_PHP_2/http.php/posts?title=Заголовок5
+Accept: application/json
+
+{
+    "autor": "user1",
+    "title": "Заголовок4",
+    "text": "Текст4"
+}
+

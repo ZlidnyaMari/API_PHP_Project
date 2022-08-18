@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fe9b9e251e4197e2cb0f9405b202890",
+    "content-hash": "e0502a21294416d3468ce1255fb31884",
     "packages": [
         {
             "name": "symfony/polyfill-uuid",
@@ -2298,7 +2298,10 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-pdo": "*",
+        "ext-mbstring": "*"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }

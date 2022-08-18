@@ -12,6 +12,8 @@
         }
     ],
     "require": {
+        "ext-pdo": "*",
+        "ext-mbstring":"*",
         "symfony/polyfill-uuid": "^1.26"
     },
     "require-dev": {
@@ -21,5 +23,4 @@
     "scripts": {
         "test": "phpunit tests --testdox --colors"
     }
-        
 }
