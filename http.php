@@ -10,9 +10,9 @@ use Gb\Php2\http\Actions\User\CreateUser;
 use Gb\Php2\http\Actions\Posts\CreatePosts;
 use Gb\Php2\http\Actions\User\FindByUsername;
 use Gb\Php2\http\Actions\Comment\CreateComment;
-use Gb\Php2\Repositories\AddToSqlitePostRepositories;
-use Gb\Php2\Repositories\AddToSqliteUsersRepositories;
-use Gb\Php2\Repositories\AddToSqliteCommentRepositories;
+use Gb\Php2\Repositories\SqlitePostRepositories;
+use Gb\Php2\Repositories\SqliteUsersRepositories;
+use Gb\Php2\Repositories\SqliteCommentRepositories;
 
 
 // Создаём объект запроса из суперглобальных переменных
@@ -47,40 +47,40 @@ try {
 $routes = [
     'GET' => [
         '/OpenServer/domains/Project_PHP_2/http.php/users/show/' => new FindByUsername(
-            new AddToSqliteUsersRepositories(
+            new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
     ],
     'POST' => [
         '/OpenServer/domains/Project_PHP_2/http.php/users/create' => new CreateUser(
-            new AddToSqliteUsersRepositories(
+            new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
         '/OpenServer/domains/Project_PHP_2/http.php/posts/create' => new CreatePosts(
-            new AddToSqlitePostRepositories(
+            new SqlitePostRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             ),
-            new AddToSqliteUsersRepositories(
+            new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
         '/OpenServer/domains/Project_PHP_2/http.php/comment/create' => new CreateComment(
-            new AddToSqliteUsersRepositories(
+            new SqliteUsersRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             ),
-            new AddToSqlitePostRepositories(
+            new SqlitePostRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             ),
-            new AddToSqliteCommentRepositories(
+            new SqliteCommentRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         )
     ],
     'DELETE' => [
         '/OpenServer/domains/Project_PHP_2/http.php/posts' => new DeletePostByTitle(
-            new AddToSqlitePostRepositories(
+            new SqlitePostRepositories(
                 new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
             )
         ),
