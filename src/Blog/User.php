@@ -8,7 +8,7 @@ class User
     private ?string $first_name;
     private ?string $last_name;
 
-    public function __construct(UUID $uuid, string $user_name = null, string $first_name = null, string $last_name) {
+    public function __construct(UUID $uuid, string $user_name = null, string $first_name = null, string $last_name = null) {
         $this->uuid = $uuid;
         $this->user_name = $user_name;
         $this->first_name = $first_name;

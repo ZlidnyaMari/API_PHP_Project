@@ -5,7 +5,7 @@ use Gb\Php2\Blog\User;
 class Post 
 {
     public UUID $uuid;
-    public string $uuidAutor;
+    public ?string $uuidAutor;
     public ?string $title;
     public ?string $text;
 
@@ -36,7 +36,7 @@ class Post
 
     public function getUuidAutor()
     {
-        return $this->uuidAutor;
+        return $this->uuidAutor; 
     }
 
     public function setUuidAutor($uuidAutor)

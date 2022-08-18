@@ -32,14 +32,14 @@ class SqlitePostRepositories implements PostsRepositoryInterface
             ':text' => $post->getText(),
         ]);
     }
-
+    
     public function deletePostByTitle(string $title)
     {
         $statement = $this->connection->prepare(
             'DELETE FROM posts WHERE title = :title'
         );
         $statement->execute([':title' => $title]);
-
+        
     }
 
     public function getPostByTitle(string $title): Post
