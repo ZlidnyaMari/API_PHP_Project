@@ -5,6 +5,11 @@
             "Gb\\Php2\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Gb\\Php2\\UnitTests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "ZlidnyaMari",
@@ -13,8 +18,9 @@
     ],
     "require": {
         "ext-pdo": "*",
-        "ext-mbstring":"*",
-        "symfony/polyfill-uuid": "^1.26"
+        "ext-mbstring": "*",
+        "symfony/polyfill-uuid": "^1.26",
+        "psr/container": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -23,4 +29,4 @@
     "scripts": {
         "test": "phpunit tests --testdox --colors"
     }
-}    
+}

@@ -1,8 +1,4 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-
-
-use Gb\Php2\http\Actions\Posts\DeletePostByTitle;
 use Gb\Php2\http\Request;
 use Gb\Php2\http\ErrorResponse;
 use Gb\Php2\Exeptions\HttpException;
@@ -10,10 +6,11 @@ use Gb\Php2\http\Actions\User\CreateUser;
 use Gb\Php2\http\Actions\Posts\CreatePosts;
 use Gb\Php2\http\Actions\User\FindByUsername;
 use Gb\Php2\http\Actions\Comment\CreateComment;
-use Gb\Php2\Repositories\SqlitePostRepositories;
-use Gb\Php2\Repositories\SqliteUsersRepositories;
-use Gb\Php2\Repositories\SqliteCommentRepositories;
+use Gb\Php2\http\Actions\Posts\DeletePostByTitle;
 
+// Подключаем файл bootstrap.php
+// и получаем настроенный контейнер
+$container = require __DIR__ . '/bootstrap.php';
 
 // Создаём объект запроса из суперглобальных переменных
 $request = new Request(
@@ -46,47 +43,17 @@ try {
 
 $routes = [
     'GET' => [
-        '/users/show/' => new FindByUsername(
-            new SqliteUsersRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            )
-        ),
+        '/users/show/' => FindByUsername::class
     ],
     'POST' => [
-        '/users/create' => new CreateUser(
-            new SqliteUsersRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            )
-        ),
-        '/posts/create' => new CreatePosts(
-            new SqlitePostRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            ),
-            new SqliteUsersRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            )
-        ),
-        '/comment/create' => new CreateComment(
-            new SqliteUsersRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            ),
-            new SqlitePostRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            ),
-            new SqliteCommentRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            )
-        )
+        '/users/create' => CreateUser::class,
+        '/posts/create' => CreatePosts::class,
+        '/comment/create' => CreateComment::class
     ],
     'DELETE' => [
-        '/posts/delete' => new DeletePostByTitle(
-            new SqlitePostRepositories(
-                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
-            )
-        ),
+        '/posts/delete' => DeletePostByTitle::class
     ],
 ];
-
 
 // Ищем маршрут среди маршрутов для этого метода
 if (!array_key_exists($path, $routes[$method])) {
@@ -95,7 +62,8 @@ if (!array_key_exists($path, $routes[$method])) {
 }
 
 // Выбираем найденное действие
-$action = $routes[$method][$path];
+$actionClassName = $routes[$method][$path];
+$action = $container->get($actionClassName);
 
 try {
     // Пытаемся выполнить действие,
