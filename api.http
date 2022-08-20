@@ -1,9 +1,9 @@
-DELETE  http://127.0.0.1:80/posts/delete?title=Заголовок
+POST http://127.0.0.1:80/posts/create
 Accept: application/json
 
 {
     "autor": "user1",
-    "title": "Заголовок",
+    "title": "Заголовок1",
     "text": "Текст4"
 }
 
