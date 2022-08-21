@@ -3,6 +3,8 @@ use Gb\Php2\http\Request;
 use Gb\Php2\http\ErrorResponse;
 use Gb\Php2\Exeptions\HttpException;
 use Gb\Php2\http\Actions\User\CreateUser;
+use Gb\Php2\http\Actions\Likes\CreateLikes;
+use Gb\Php2\http\Actions\Likes\DeleteLikes;
 use Gb\Php2\http\Actions\Posts\CreatePosts;
 use Gb\Php2\http\Actions\User\FindByUsername;
 use Gb\Php2\http\Actions\Comment\CreateComment;
@@ -48,10 +50,11 @@ $routes = [
     'POST' => [
         '/users/create' => CreateUser::class,
         '/posts/create' => CreatePosts::class,
-        '/comment/create' => CreateComment::class
+        '/comment/create' => CreateComment::class,
+        '/likes/create' => CreateLikes::class
     ],
     'DELETE' => [
-        '/posts/delete' => DeletePostByTitle::class
+        '/posts/delete' => DeletePostByTitle::class,
     ],
 ];
 

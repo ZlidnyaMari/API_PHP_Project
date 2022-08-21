@@ -1,8 +1,10 @@
 <?php
 
 use Gb\Php2\Blog\Container\DIContainer;
+use Gb\Php2\Interfaces\LikesPostRepositoriesInterface;
 use Gb\Php2\Interfaces\PostsRepositoryInterface;
 use Gb\Php2\Interfaces\UsersRepositoryInterface;
+use Gb\Php2\Repositories\SqlitePostLikesRepositories;
 use Gb\Php2\Repositories\SqlitePostRepositories;
 use Gb\Php2\Repositories\SqliteUsersRepositories;
 
@@ -25,6 +27,10 @@ $container->bind(
 $container->bind(
     UsersRepositoryInterface::class,
     SqliteUsersRepositories::class
+);
+$container->bind(
+    LikesPostRepositoriesInterface::class,
+    SqlitePostLikesRepositories::class
 );
 // Возвращаем объект контейнера
 return $container;

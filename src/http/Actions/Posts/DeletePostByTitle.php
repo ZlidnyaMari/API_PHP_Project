@@ -27,7 +27,7 @@ class DeletePostByTitle implements ActionInterface
         } catch (HttpException $e) {
             return new ErrorResponse($e->getMessage());
         }
-
+        
         $this->postRepository->deletePostByTitle($titlePost);
 
 
