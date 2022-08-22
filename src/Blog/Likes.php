@@ -21,7 +21,7 @@ class Likes
 
     public function setUuid($uuid_likes)
     {
-        $this->uuid = $uuid_likes;
+        $this->uuid_likes = $uuid_likes;
 
         return $this;
     }
@@ -33,7 +33,7 @@ class Likes
 
     public function setUuidPostLikes($uuid_post_likes)
     {
-        $this->uuid = $uuid_post_likes;
+        $this->uuid_post_likes = $uuid_post_likes;
 
         return $this;
     }
@@ -45,7 +45,7 @@ class Likes
 
     public function setUuidUserLikes($uuid_user_likes)
     {
-        $this->uuid = $uuid_user_likes;
+        $this->uuid_user_likes = $uuid_user_likes;
 
         return $this;
     }

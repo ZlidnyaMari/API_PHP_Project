@@ -36,10 +36,7 @@ class SqlitePostRepositories implements PostsRepositoryInterface
     public function get(UUID $uuid): Post
     {
         $statement = $this->connection->prepare(
-            'SELECT *
-            FROM posts LEFT JOIN users
-                    ON posts.autor_uuid = users.uuid 
-                    WHERE posts.uuid = :uuid'
+            'SELECT * FROM posts WHERE uuid = :uuid'
         );
         $statement->execute([
             ':uuid' => (string)$uuid,

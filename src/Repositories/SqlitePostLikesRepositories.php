@@ -68,7 +68,7 @@ class SqlitePostLikesRepositories implements LikesPostRepositoriesInterface
         ]);
         
         $rezult = $statement->fetch();
-
+        
         if ($rezult) {
             throw new LikesLimitExeption(
                 'This user has already liked'

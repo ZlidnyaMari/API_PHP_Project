@@ -4,7 +4,6 @@ use Gb\Php2\http\ErrorResponse;
 use Gb\Php2\Exeptions\HttpException;
 use Gb\Php2\http\Actions\User\CreateUser;
 use Gb\Php2\http\Actions\Likes\CreateLikes;
-use Gb\Php2\http\Actions\Likes\DeleteLikes;
 use Gb\Php2\http\Actions\Posts\CreatePosts;
 use Gb\Php2\http\Actions\User\FindByUsername;
 use Gb\Php2\http\Actions\Comment\CreateComment;
