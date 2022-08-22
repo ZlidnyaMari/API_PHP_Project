@@ -4,10 +4,10 @@ use Gb\Php2\Blog\User;
 
 class Post 
 {
-    public UUID $uuid;
-    public ?string $uuidAutor;
-    public ?string $title;
-    public ?string $text;
+    private UUID $uuid;
+    private UUID $uuidAutor;
+    private ?string $title;
+    private ?string $text;
 
     public function __construct(UUID $uuid, User $user, string $title = null, string $text = null)
     {

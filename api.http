@@ -1,9 +1,9 @@
-POST http://127.0.0.1:80/posts/create
+POST http://127.0.0.1:80/likes/create
 Accept: application/json
 
 {
-    "autor": "user1",
-    "title": "Заголовок1",
-    "text": "Текст4"
+    "post_uuid": "ea59fedd-b725-4665-ae2d-ed707a001792",
+    "autor_uuid": "2f5524db-fe4c-4f66-9a08-8667bcc46a73"
+    
 }
 

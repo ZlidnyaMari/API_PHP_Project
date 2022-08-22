@@ -32,6 +32,18 @@ class SqlitePostRepositories implements PostsRepositoryInterface
             ':text' => $post->getText(),
         ]);
     }
+
+    public function get(UUID $uuid): Post
+    {
+        $statement = $this->connection->prepare(
+            'SELECT * FROM posts WHERE uuid = :uuid'
+        );
+        $statement->execute([
+            ':uuid' => (string)$uuid,
+        ]);
+
+        return $this->getPost($statement, $uuid);
+    }
     
     public function deletePostByTitle(string $title)
     {
@@ -55,6 +67,7 @@ class SqlitePostRepositories implements PostsRepositoryInterface
 
     private function getPost(\PDOStatement $statement, string $title): Post
     {
+    
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if ($result === false) {
@@ -62,7 +75,7 @@ class SqlitePostRepositories implements PostsRepositoryInterface
                 "No such header : $title"
             );
         }
-        
+
         $user = new User(
             new UUID($result['uuid']),
                 $result['username'],

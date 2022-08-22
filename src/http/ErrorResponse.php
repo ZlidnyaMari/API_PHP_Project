@@ -8,7 +8,7 @@ class ErrorResponse extends Response
     // Неуспешный ответ содержит строку с причиной неуспеха,
     // по умолчанию - 'Something goes wrong'
     private string $reason = 'Something goes wrong';
-    public function __construct(string $reason) 
+    public function __construct(string $reason = 'Something goes wrong') 
     {
         $this->reason = $reason;
     }
