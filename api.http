@@ -1,9 +1,10 @@
-POST http://127.0.0.1:80/likes/create
+POST http://127.0.0.1:80/users/create
 Accept: application/json
 
 {
-    "post_uuid": "ea59fedd-b725-4665-ae2d-ed707a001792",
-    "autor_uuid": "2f5524db-fe4c-4f66-9a08-8667bcc46a73"
+    "username": "user3",
+    "first_name": "lll",
+    "last_name": "sss"
     
 }
 

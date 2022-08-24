@@ -3,8 +3,8 @@
 namespace Gb\Php2\Blog\Container;
 
 use ReflectionClass;
-use Gb\Php2\Exeptions\NotFoundException;
 use Psr\Container\ContainerInterface;
+use Gb\Php2\Exeptions\NotFoundException;
 
 class DIContainer implements ContainerInterface
 {
@@ -15,6 +15,10 @@ class DIContainer implements ContainerInterface
     {
         $this->resolvers[$type] = $resolver;
     }
+
+    /**
+     * @throws NotFoundException
+     */
 
     public function get(string $type): object
     {
