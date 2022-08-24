@@ -1,6 +1,6 @@
 <?php
 
-namespace Gb\Php2\UnitTests\penServer\domains\Project_PHP_2\tests;
+namespace Gb\Php2\UnitTests;
 
 use Psr\Log\LoggerInterface;
 use Stringable;

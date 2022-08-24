@@ -1,19 +1,22 @@
 <?php
 namespace Gb\Php2\Repositories;
 
+use Gb\Php2\Blog\Post;
 use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
-use Gb\Php2\Blog\Post;
+use Psr\Log\LoggerInterface;
 use Gb\Php2\Exeptions\PostNotFoundException;
 use Gb\Php2\Interfaces\PostsRepositoryInterface;
 
 class SqlitePostRepositories implements PostsRepositoryInterface
 {
     private \PDO $connection;
+    private LoggerInterface $logger;
 
-    public function __construct(\PDO $connection)
+    public function __construct(\PDO $connection, LoggerInterface $logger)
     {
         $this->connection = $connection;
+        $this->logger = $logger;
     }
 
     public function save(Post $post): void
@@ -31,6 +34,8 @@ class SqlitePostRepositories implements PostsRepositoryInterface
             ':title' => $post->getTitle(),
             ':text' => $post->getText(),
         ]);
+
+        $this->logger->info("Post created: {$post->getUuid()}");
     }
 
     public function get(UUID $uuid): Post
@@ -71,9 +76,10 @@ class SqlitePostRepositories implements PostsRepositoryInterface
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if ($result === false) {
-            throw new PostNotFoundException(
-                "No such header : $title"
-            );
+            $message = "No such header : $title";
+            
+            $this->logger->warning($message);
+            throw new PostNotFoundException($message);
         }
 
         $user = new User(
