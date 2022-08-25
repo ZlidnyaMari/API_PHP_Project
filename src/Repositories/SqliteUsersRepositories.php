@@ -3,16 +3,19 @@ namespace Gb\Php2\Repositories;
 
 use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
+use Psr\Log\LoggerInterface;
 use Gb\Php2\Exeptions\UserNotFoundException;
 use Gb\Php2\Interfaces\UsersRepositoryInterface;
 
 Class SqliteUsersRepositories implements UsersRepositoryInterface
 {
     private \PDO $connection;
+    private LoggerInterface $logger;
 
-    public function __construct(\PDO $connection)
+    public function __construct(\PDO $connection, LoggerInterface $logger)
     {
         $this->connection = $connection;
+        $this->logger = $logger;
     }
 
     public function save(User $user): void
@@ -30,6 +33,8 @@ Class SqliteUsersRepositories implements UsersRepositoryInterface
             ':first_name' => $user->getfirst_name(),
             ':last_name' => $user->getLast_name(),
         ]);
+
+        $this->logger->info("Post created: {$user->getUuid()}");
     }
 
     public function get(UUID $uuid): User
@@ -60,9 +65,10 @@ Class SqliteUsersRepositories implements UsersRepositoryInterface
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if ($result === false) {
-            throw new UserNotFoundException(
-                "Cannot find user: $user_name"
-            );
+            $message = "Cannot find user: $user_name";
+
+            $this->logger->warning($message);
+            throw new UserNotFoundException($message);
         }
         return new User(
             new UUID($result['uuid']),

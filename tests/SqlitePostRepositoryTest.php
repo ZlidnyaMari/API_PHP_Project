@@ -4,6 +4,7 @@ use Gb\Php2\Blog\Post;
 use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
 use PHPUnit\Framework\TestCase;
+use Gb\Php2\UnitTests\DummyLogger;
 use Gb\Php2\Exeptions\PostNotFoundException;
 use Gb\Php2\Repositories\SqlitePostRepositories;
 
@@ -16,7 +17,7 @@ class SqlitePostRepositoryTest extends TestCase
         $statementStub->method('fetch')->willReturn(false);
         $connectionMock->method('prepare')->willReturn($statementStub);
 
-        $repository = new SqlitePostRepositories($connectionMock);
+        $repository = new SqlitePostRepositories($connectionMock, new DummyLogger());
         $this->expectException(PostNotFoundException::class);
         $this->expectExceptionMessage('No such header : header');
         $repository->getPostByTitle('header');
@@ -40,7 +41,7 @@ class SqlitePostRepositoryTest extends TestCase
        
         $connectionStub->method('prepare')->willReturn($statementMock);
         
-        $repository = new SqlitePostRepositories($connectionStub);
+        $repository = new SqlitePostRepositories($connectionStub, new DummyLogger());
         $repository->save(
         new Post( 
         new UUID('123e4567-e89b-12d3-a456-426614174000'),

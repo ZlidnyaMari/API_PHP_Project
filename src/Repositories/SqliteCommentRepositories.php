@@ -5,16 +5,20 @@ use Gb\Php2\Blog\Post;
 use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
 use Gb\Php2\Blog\Comment;
+use Psr\Log\LoggerInterface;
 use Gb\Php2\Exeptions\CommentNotFoundException;
 use Gb\Php2\Interfaces\CommentsRepositoryInterface;
 
 class SqliteCommentRepositories  implements CommentsRepositoryInterface
 {
     private \PDO $connection;
+    private LoggerInterface $logger;
 
-    public function __construct(\PDO $connection)
+
+    public function __construct(\PDO $connection, LoggerInterface $logger)
     {
         $this->connection = $connection;
+        $this->logger = $logger;
     }
 
     public function save(Comment $comment): void
@@ -32,6 +36,8 @@ class SqliteCommentRepositories  implements CommentsRepositoryInterface
             ':autor_uuid' => $comment->getUuidAutor(),
             ':text' => $comment->getText(),
         ]);
+
+        $this->logger->info("Post created: {$comment->getUuid()}");
     }
 
     public function getCommentUuid(string $uuid): Comment
@@ -50,9 +56,10 @@ class SqliteCommentRepositories  implements CommentsRepositoryInterface
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if ($result === false) {
-            throw new CommentNotFoundException(
-                "No such comment : $uuid"
-            );
+            $message = "No such comment : $uuid";
+
+            $this->logger->warning($message);
+            throw new CommentNotFoundException($message);
         }
         
         $user = new User(

@@ -4,6 +4,7 @@ use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
 use Gb\Php2\Blog\Comment;
 use PHPUnit\Framework\TestCase;
+use Gb\Php2\UnitTests\DummyLogger;
 use Gb\Php2\Exeptions\CommentNotFoundException;
 use Gb\Php2\Repositories\SqliteCommentRepositories;
 
@@ -16,7 +17,7 @@ class SqliteCommentRepositoryTest extends TestCase
         $statementStub->method('fetch')->willReturn(false);
         $connectionMock->method('prepare')->willReturn($statementStub);
 
-        $repository = new SqliteCommentRepositories($connectionMock);
+        $repository = new SqliteCommentRepositories($connectionMock, new DummyLogger());
         $this->expectException(CommentNotFoundException::class);
         $this->expectExceptionMessage('No such comment : f5cb51be-22ef-4c43-8ea3-171e91c6a00b');
         $repository->getCommentUuid('f5cb51be-22ef-4c43-8ea3-171e91c6a00b');
@@ -38,7 +39,7 @@ class SqliteCommentRepositoryTest extends TestCase
         ]);
        
         $connectionStub->method('prepare')->willReturn($statementMock);
-        $repository = new SqliteCommentRepositories($connectionStub);
+        $repository = new SqliteCommentRepositories($connectionStub, new DummyLogger());
         $user = new User(new UUID('f5cb51be-22ef-4c43-8ea3-171e91c6a00b'), 'ivan123', 'Ivan', 'Nikitin');
 
         $repository->save(

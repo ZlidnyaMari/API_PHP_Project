@@ -3,6 +3,7 @@
 namespace Gb\Php2\Repositories;
 
 use Gb\Php2\Blog\Likes;
+use Psr\Log\LoggerInterface;
 use Gb\Php2\Exeptions\LikesLimitExeption;
 use Gb\Php2\Exeptions\LikesNotFoundException;
 use Gb\Php2\Interfaces\LikesPostRepositoriesInterface;
@@ -10,10 +11,12 @@ use Gb\Php2\Interfaces\LikesPostRepositoriesInterface;
 class SqlitePostLikesRepositories implements LikesPostRepositoriesInterface
 {
     private \PDO $connection;
+    private LoggerInterface $logger;
 
-    public function __construct(\PDO $connection)
+    public function __construct(\PDO $connection, LoggerInterface $logger)
     {
         $this->connection = $connection;
+        $this->logger = $logger;
     }
 
     public function save(Likes $like): void
@@ -30,6 +33,8 @@ class SqlitePostLikesRepositories implements LikesPostRepositoriesInterface
             ':post_uuid' => $like->getUuidPostLikes(),
             ':autor_uuid' => $like->getUuidUserLikes()
         ]);
+
+        $this->logger->info("Post created: {$like->getUuid()}");
     }
 
     public function getByPostUuid(string $uuid): array
@@ -48,9 +53,10 @@ class SqlitePostLikesRepositories implements LikesPostRepositoriesInterface
         $result = $statement->fetchAll();
 
         if ($result === false) {
-            throw new LikesNotFoundException(
-                "No such comment : $uuid"
-            );
+            $message = "No such like : $uuid";
+            
+            $this->logger->warning($message);
+            throw new LikesNotFoundException($message);
         }
         return $result;
     }
