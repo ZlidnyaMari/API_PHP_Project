@@ -2,6 +2,7 @@
 
 use Gb\Php2\http\Request;
 use Psr\Log\LoggerInterface;
+use Gb\Php2\http\Actions\LogIn;
 use Gb\Php2\http\ErrorResponse;
 use Gb\Php2\Exeptions\HttpException;
 use Gb\Php2\http\Actions\User\CreateUser;
@@ -57,7 +58,8 @@ $routes = [
         '/users/create' => CreateUser::class,
         '/posts/create' => CreatePosts::class,
         '/comment/create' => CreateComment::class,
-        '/likes/create' => CreateLikes::class
+        '/likes/create' => CreateLikes::class,
+        '/login' => LogIn::class
     ],
     'DELETE' => [
         '/posts/delete' => DeletePostByTitle::class,

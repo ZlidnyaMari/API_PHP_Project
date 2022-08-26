@@ -5,14 +5,21 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Monolog\Handler\StreamHandler;
 use Gb\Php2\Blog\Container\DIContainer;
+use Gb\Php2\http\Auth\PasswordAuthentication;
+use Gb\Php2\http\Auth\AuthenticationInterface;
 use Gb\Php2\http\Auth\IdentificationInterface;
+use Gb\Php2\http\Auth\BearerTokenAuthentication;
 use Gb\Php2\Interfaces\PostsRepositoryInterface;
 use Gb\Php2\Interfaces\UsersRepositoryInterface;
 use Gb\Php2\Repositories\SqlitePostRepositories;
 use Gb\Php2\http\Auth\JsonBodyUuidIdentification;
 use Gb\Php2\Repositories\SqliteUsersRepositories;
+use Gb\Php2\http\Auth\TokenAuthenticationInterface;
+use Gb\Php2\Interfaces\AuthTokensRepositoryInterface;
 use Gb\Php2\Repositories\SqlitePostLikesRepositories;
+use Gb\Php2\http\Auth\PasswordAuthenticationInterface;
 use Gb\Php2\Interfaces\LikesPostRepositoriesInterface;
+use Gb\Php2\Repositories\AuthTokensRepository\SqliteAuthTokensRepository;
 
 // Подключаем автозагрузчик Composer
 require_once __DIR__ . '/vendor/autoload.php';
@@ -57,9 +64,29 @@ $container->bind(
 );
 
 $container->bind(
+    PasswordAuthenticationInterface::class,
+    PasswordAuthentication::class
+);
+
+$container->bind(
+    TokenAuthenticationInterface::class,
+    BearerTokenAuthentication::class
+);
+
+$container->bind(
+    AuthTokensRepositoryInterface::class,
+    SqliteAuthTokensRepository::class
+);
+
+$container->bind(
     IdentificationInterface::class,
     JsonBodyUuidIdentification::class
 );
+
+$container->bind(
+    AuthenticationInterface::class,
+    PasswordAuthentication::class
+);    
     
 // 2. репозиторий статей
 $container->bind(

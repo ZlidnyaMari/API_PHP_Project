@@ -1,10 +1,9 @@
-POST http://127.0.0.1:80/users/create
-Accept: application/json
+POST http://127.0.0.1:80/posts/create
+
 
 {
-    "username": "user3",
-    "first_name": "lll",
-    "last_name": "sss"
-    
+    "text": "some text",
+    "title": "some 123title"
 }
+
 
