@@ -15,6 +15,8 @@ use Gb\Php2\Repositories\SqlitePostRepositories;
 use Gb\Php2\http\Auth\JsonBodyUuidIdentification;
 use Gb\Php2\Repositories\SqliteUsersRepositories;
 use Gb\Php2\http\Auth\TokenAuthenticationInterface;
+use Gb\Php2\Interfaces\CommentsRepositoryInterface;
+use Gb\Php2\Repositories\SqliteCommentRepositories;
 use Gb\Php2\Interfaces\AuthTokensRepositoryInterface;
 use Gb\Php2\Repositories\SqlitePostLikesRepositories;
 use Gb\Php2\http\Auth\PasswordAuthenticationInterface;
@@ -101,6 +103,11 @@ $container->bind(
 $container->bind(
     LikesPostRepositoriesInterface::class,
     SqlitePostLikesRepositories::class
+);
+
+$container->bind(
+    CommentsRepositoryInterface::class,
+    SqliteCommentRepositories::class
 );
 // Возвращаем объект контейнера
 return $container;

@@ -19,16 +19,26 @@ class AuthToken
         $this->userUuid = $userUuid;
         $this->expiresOn = $expiresOn;
     }
+
     public function token(): string
     {
         return $this->token;
     }
+
     public function userUuid(): UUID
     {
         return $this->userUuid;
     }
+
     public function expiresOn(): DateTimeImmutable
     {
         return $this->expiresOn;
+    }
+
+    public function setExpiresOn(DateTimeImmutable $expiresOn)
+    {
+        $this->expiresOn = $expiresOn;
+
+        return $this;
     }
 }

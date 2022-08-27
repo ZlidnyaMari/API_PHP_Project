@@ -41,7 +41,16 @@ class SqlitePostRepositories implements PostsRepositoryInterface
     public function get(UUID $uuid): Post
     {
         $statement = $this->connection->prepare(
-            'SELECT * FROM posts WHERE uuid = :uuid'
+            'SELECT posts.uuid as post_uuid,
+                posts.title as post_title,
+                posts.text as post_text,
+                users.uuid as users_uuid,
+                users.username as users_username, 
+                users.first_name as users_first_name,
+                users.last_name as users_last_name
+            FROM posts LEFT JOIN users
+            ON posts.autor_uuid = users.uuid
+            WHERE posts.uuid = :uuid'
         );
         $statement->execute([
             ':uuid' => (string)$uuid,
@@ -60,13 +69,23 @@ class SqlitePostRepositories implements PostsRepositoryInterface
     }
 
     public function getPostByTitle(string $title): Post
-    {
+    {   
         $statement = $this->connection->prepare(
-            'SELECT * FROM posts WHERE title = :title'
+            'SELECT posts.uuid as post_uuid,
+                posts.title as post_title,
+                posts.text as post_text,
+                users.uuid as users_uuid,
+                users.username as users_username, 
+                users.first_name as users_first_name,
+                users.last_name as users_last_name
+            FROM posts LEFT JOIN users
+            ON posts.autor_uuid = users.uuid
+            WHERE title = :title'
+            // 'SELECT * FROM posts WHERE title = :title'
         );
 
         $statement->execute([':title' => $title]);
-
+    
         return $this->getPost($statement, $title);
     }
 
@@ -83,17 +102,17 @@ class SqlitePostRepositories implements PostsRepositoryInterface
         }
 
         $user = new User(
-            new UUID($result['uuid']),
-                $result['username'],
-                $result['first_name'], 
-                $result['last_name']
+            new UUID($result['users_uuid']),
+                $result['users_username'],
+                $result['users_first_name'], 
+                $result['users_last_name']
         );
 
         return new Post(
-            new UUID($result['uuid']),
+            new UUID($result['post_uuid']),
                 $user,
-                $result['title'], 
-                $result['text']
+                $result['post_title'], 
+                $result['post_text']
         );
     }
 }

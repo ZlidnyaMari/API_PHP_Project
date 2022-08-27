@@ -10,6 +10,7 @@ use Gb\Php2\http\Actions\Likes\CreateLikes;
 use Gb\Php2\http\Actions\Posts\CreatePosts;
 use Gb\Php2\http\Actions\User\FindByUsername;
 use Gb\Php2\http\Actions\Comment\CreateComment;
+use Gb\Php2\http\Actions\LogOut;
 use Gb\Php2\http\Actions\Posts\DeletePostByTitle;
 
 // Подключаем файл bootstrap.php
@@ -59,7 +60,8 @@ $routes = [
         '/posts/create' => CreatePosts::class,
         '/comment/create' => CreateComment::class,
         '/likes/create' => CreateLikes::class,
-        '/login' => LogIn::class
+        '/login' => LogIn::class,
+        '/logout' => LogOut::class
     ],
     'DELETE' => [
         '/posts/delete' => DeletePostByTitle::class,

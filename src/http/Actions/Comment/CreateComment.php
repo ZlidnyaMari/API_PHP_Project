@@ -6,28 +6,29 @@ use Gb\Php2\Blog\Comment;
 use Gb\Php2\http\Request;
 use Gb\Php2\http\Response;
 use Gb\Php2\http\ErrorResponse;
+use Gb\Php2\Exeptions\AuthException;
 use Gb\Php2\Exeptions\HttpException;
 use Gb\Php2\http\SuccessfulResponse;
 use Gb\Php2\http\Actions\ActionInterface;
 use Gb\Php2\Interfaces\PostsRepositoryInterface;
-use Gb\Php2\Interfaces\UsersRepositoryInterface;
+use Gb\Php2\http\Auth\TokenAuthenticationInterface;
 use Gb\Php2\Interfaces\CommentsRepositoryInterface;
 
 class CreateComment implements ActionInterface
 {
-    private UsersRepositoryInterface $usersRepository;
     private PostsRepositoryInterface $postRepository;
     private CommentsRepositoryInterface $commentRepository;
+    private TokenAuthenticationInterface $authentication;
 
     public function __construct(
-    UsersRepositoryInterface $usersRepository,
     PostsRepositoryInterface $postRepository,
-    CommentsRepositoryInterface $commentRepository    
+    CommentsRepositoryInterface $commentRepository,  
+    TokenAuthenticationInterface $authentication  
     ) 
     {
-        $this->usersRepository = $usersRepository;
         $this->postRepository = $postRepository;
         $this->commentRepository = $commentRepository;
+        $this->authentication = $authentication;
     }
 
     public function handle(Request $request): Response
@@ -35,8 +36,11 @@ class CreateComment implements ActionInterface
         try {
             $newCommentUuid = UUID::random();
 
-            $autorUser = ($request->jsonBodyField('autor'));
-            $user = $this->usersRepository->getByUsername($autorUser);
+            try {
+                $user = $this->authentication->user($request);
+            } catch (AuthException $e) {
+                return new ErrorResponse($e->getMessage());
+            }
 
             $titlePost = ($request->jsonBodyField('title'));
             $post = $this->postRepository->getPostByTitle($titlePost);
