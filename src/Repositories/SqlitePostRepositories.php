@@ -1,4 +1,5 @@
 <?php
+
 namespace Gb\Php2\Repositories;
 
 use Gb\Php2\Blog\Post;
@@ -6,6 +7,7 @@ use Gb\Php2\Blog\User;
 use Gb\Php2\Blog\UUID;
 use Psr\Log\LoggerInterface;
 use Gb\Php2\Exeptions\PostNotFoundException;
+use Gb\Php2\Exeptions\PostsRepositoryException;
 use Gb\Php2\Interfaces\PostsRepositoryInterface;
 
 class SqlitePostRepositories implements PostsRepositoryInterface
@@ -26,8 +28,8 @@ class SqlitePostRepositories implements PostsRepositoryInterface
             'INSERT INTO posts (uuid, autor_uuid, title, text)
             VALUES (:uuid, :autor_uuid, :title, :text)'
         );
-    
-    // Выполняем запрос с конкретными значениями
+
+        // Выполняем запрос с конкретными значениями
         $statement->execute([
             ':uuid' => (string)$post->getUuid(),
             ':autor_uuid' => $post->getUuidAutor(),
@@ -58,18 +60,33 @@ class SqlitePostRepositories implements PostsRepositoryInterface
 
         return $this->getPost($statement, $uuid);
     }
-    
+
     public function deletePostByTitle(string $title)
     {
         $statement = $this->connection->prepare(
             'DELETE FROM posts WHERE title = :title'
         );
         $statement->execute([':title' => $title]);
-        
+    }
+
+    public function delete(UUID $uuid): void
+    {
+        try {
+            $statement = $this->connection->prepare(
+                'DELETE FROM posts WHERE uuid = ?'
+            );
+            $statement->execute([(string)$uuid]);
+        } catch (\PDOException $e) {
+            throw new PostsRepositoryException(
+                $e->getMessage(),
+                (int)$e->getCode(),
+                $e
+            );
+        }
     }
 
     public function getPostByTitle(string $title): Post
-    {   
+    {
         $statement = $this->connection->prepare(
             'SELECT posts.uuid as post_uuid,
                 posts.title as post_title,
@@ -85,34 +102,34 @@ class SqlitePostRepositories implements PostsRepositoryInterface
         );
 
         $statement->execute([':title' => $title]);
-    
+
         return $this->getPost($statement, $title);
     }
 
     private function getPost(\PDOStatement $statement, string $title): Post
     {
-    
+
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if ($result === false) {
             $message = "No such header : $title";
-            
+
             $this->logger->warning($message);
             throw new PostNotFoundException($message);
         }
 
         $user = new User(
             new UUID($result['users_uuid']),
-                $result['users_username'],
-                $result['users_first_name'], 
-                $result['users_last_name']
+            $result['users_username'],
+            $result['users_first_name'],
+            $result['users_last_name']
         );
 
         return new Post(
             new UUID($result['post_uuid']),
-                $user,
-                $result['post_title'], 
-                $result['post_text']
+            $user,
+            $result['post_title'],
+            $result['post_text']
         );
     }
 }
