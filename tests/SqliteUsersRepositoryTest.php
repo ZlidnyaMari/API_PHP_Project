@@ -21,7 +21,6 @@ class SqliteUsersRepositoryTest extends TestCase
         $this->expectException(UserNotFoundException::class);
         $this->expectExceptionMessage('Cannot find user: Ivan');
         $repository->getByUsername('Ivan');
-
     }
 
     public function testItSavesUserToDatabase(): void
@@ -30,25 +29,27 @@ class SqliteUsersRepositoryTest extends TestCase
         $statementMock = $this->createMock(PDOStatement::class);
 
         $statementMock
-            ->expects($this->once()) 
-            ->method('execute') 
-            ->with([ 
-            ':uuid' => 'f5cb51be-22ef-4c43-8ea3-171e91c6a00b',
-            ':username' => 'ivan123',
-            ':first_name' => 'Ivan',
-            ':last_name' => 'Nikitin',
-        ]);
-       
+            ->expects($this->once())
+            ->method('execute')
+            ->with([
+                ':uuid' => 'f5cb51be-22ef-4c43-8ea3-171e91c6a00b',
+                ':username' => 'ivan123',
+                ':first_name' => 'Ivan',
+                ':last_name' => 'Nikitin',
+                ':password' => 'some_password',
+            ]);
+
         $connectionStub->method('prepare')->willReturn($statementMock);
-        
+
         $repository = new SqliteUsersRepositories($connectionStub, new DummyLogger());
         $repository->save(
-        new User( 
-        new UUID('f5cb51be-22ef-4c43-8ea3-171e91c6a00b'),
-        'ivan123',
-        'Ivan', 
-        'Nikitin')
+            new User(
+                new UUID('f5cb51be-22ef-4c43-8ea3-171e91c6a00b'),
+                'ivan123',
+                'Ivan',
+                'Nikitin',
+                'some_password'
+            )
         );
     }
 }
-

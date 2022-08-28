@@ -1,10 +1,10 @@
-POST http://127.0.0.1:80/users/create
-Accept: application/json
+POST http://127.0.0.1:80/logout
+Authorization: Bearer c0160eab68fbad86af724267edbf0a8dc469a037e7d16b3a2494c0f7e7221f0635ae06abbcdd2633
+
 
 {
-    "username": "user3",
-    "first_name": "lll",
-    "last_name": "sss"
-    
+    "title": "some 55title",
+    "text": "some text"
 }
+
 
