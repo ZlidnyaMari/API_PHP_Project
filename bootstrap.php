@@ -2,7 +2,12 @@
 
 use Dotenv\Dotenv;
 use Monolog\Logger;
+use Faker\Generator;
+use Faker\Provider\Lorem;
 use Psr\Log\LoggerInterface;
+use Faker\Provider\ru_RU\Text;
+use Faker\Provider\ru_RU\Person;
+use Faker\Provider\ru_RU\Internet;
 use Monolog\Handler\StreamHandler;
 use Gb\Php2\Blog\Container\DIContainer;
 use Gb\Php2\http\Auth\PasswordAuthentication;
@@ -23,6 +28,7 @@ use Gb\Php2\http\Auth\PasswordAuthenticationInterface;
 use Gb\Php2\Interfaces\LikesPostRepositoriesInterface;
 use Gb\Php2\Repositories\AuthTokensRepository\SqliteAuthTokensRepository;
 
+
 // Подключаем автозагрузчик Composer
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -30,6 +36,15 @@ Dotenv::createImmutable(__DIR__)->safeLoad();
 
 // Создаём объект контейнера ..
 $container = new DIContainer();
+
+// Создаём объект генератора тестовых данных
+$faker = new Generator();
+// Инициализируем необходимые нам виды данных
+$faker->addProvider(new Person($faker));
+$faker->addProvider(new Text($faker));
+$faker->addProvider(new Internet($faker));
+$faker->addProvider(new Lorem($faker));
+
 // .. и настраиваем его:
 // 1. подключение к БД
 $container->bind(
@@ -63,6 +78,13 @@ if ('yes' === $_SERVER['LOG_TO_CONSOLE']) {
 $container->bind(
     LoggerInterface::class,
     $logger
+);
+
+// Добавляем генератор тестовых данных
+// в контейнер внедрения зависимостей
+$container->bind(
+    \Faker\Generator::class,
+    $faker
 );
 
 $container->bind(
